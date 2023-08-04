@@ -23,11 +23,13 @@ export const connectSocket = (io: any) => {
       console.log('chatMessage', chatMessage);
       if (chatMessage?.channel) {
         const formatMessage = {
+          _id: Date.now(),
           name: chatMessage?.user,
           message: chatMessage?.message,
           channel: chatMessage?.channel,
-          createdAt: Date.now(),
+          createdAt: new Date(),
         };
+        console.log('formatMessage', formatMessage);
         io.to(chatMessage?.channel).emit('message', formatMessage);
       }
     });

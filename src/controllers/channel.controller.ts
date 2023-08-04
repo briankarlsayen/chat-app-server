@@ -68,7 +68,9 @@ export const joinChannel = async (
     }).exec();
 
     if (alreadyJoined)
-      return res.status(200).json({ channelId: alreadyJoined._id });
+      return res
+        .status(200)
+        .json({ _id: alreadyJoined._id, label: alreadyJoined.label });
 
     const channel = await Channel.findOneAndUpdate(
       { ...query },
@@ -77,7 +79,9 @@ export const joinChannel = async (
     ).exec();
     if (!channel)
       return res.status(422).json({ message: 'Unable to join channel' });
-    res.status(201).json({ message: 'Successfully joined', success: true });
+    res
+      .status(201)
+      .json({ message: 'Successfully joined', success: true, data: channel });
   } catch (error) {
     console.log('err', error);
     next(error);
