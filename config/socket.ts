@@ -28,6 +28,7 @@ export const connectSocket = (io: any) => {
           message: chatMessage?.message,
           channel: chatMessage?.channel,
           createdAt: new Date(),
+          type: chatMessage?.type
         };
         console.log('formatMessage', formatMessage);
         io.to(chatMessage?.channel).emit('message', formatMessage);
