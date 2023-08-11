@@ -1,7 +1,7 @@
 import { Socket } from 'socket.io';
 export const connectSocket = (io: any) => {
   console.log('Socket working!');
-  io.on('connection', (socket: Socket) => {
+  io.of('/chat-app').on('connection', (socket: Socket) => {
     console.log('User Connected: ', socket.id);
 
     socket.on('join-room', (chatRoomNames) => {
@@ -19,8 +19,7 @@ export const connectSocket = (io: any) => {
     });
 
     // * chatMessage = { user: string, body: string }
-    socket.on('send-chat', (chatMessage) => {
-      console.log('chatMessage', chatMessage);
+    socket.on('send-chat', async (chatMessage) => {
       if (chatMessage?.channel) {
         const formatMessage = {
           _id: Date.now(),
@@ -31,7 +30,9 @@ export const connectSocket = (io: any) => {
           type: chatMessage?.type
         };
         console.log('formatMessage', formatMessage);
-        io.to(chatMessage?.channel).emit('message', formatMessage);
+        io.of('/chat-app')
+          .to(chatMessage?.channel)
+          .emit('message', formatMessage);
       }
     });
 
