@@ -20,7 +20,7 @@ Join us today and experience the future of realtime chatting – fast, private, 
 
 - Database: mongodb
 - Websocket: socket.io
-- web framework: expressjs
+- Nodejs framework: expressjs
 
 ## Running on local machine
 
