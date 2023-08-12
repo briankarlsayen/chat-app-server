@@ -8,11 +8,24 @@ export const displayChannels = async (
 ) => {
   const { token } = req.params;
   try {
-    const message = await Channel.find({
+    const channels = await Channel.find({
       'users.token': token,
       isDeleted: false,
-    }).exec();
-    res.status(200).json(message);
+    }).lean().exec();
+    let response;
+    if (channels.length) {
+      response = channels.map((channel) => {
+        const user = channel.users?.find((user) => user.token === token)
+        return {
+          _id: channel._id,
+          label: channel.label,
+          name: user?.name,
+          token: user?.token
+        }
+      })
+    }
+
+    res.status(200).json(response);
   } catch (error) {
     next(error);
   }
@@ -83,7 +96,6 @@ export const joinChannel = async (
       .status(201)
       .json({ message: 'Successfully joined', success: true, data: channel });
   } catch (error) {
-    console.log('err', error);
     next(error);
   }
 };
