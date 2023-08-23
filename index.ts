@@ -6,6 +6,7 @@ import routes from './src/routes';
 import http from 'http';
 import { errorHandler } from './middlewares/errorHandler';
 import { initializeConfig } from './config';
+import globalRoutes from './src/global'
 
 dotenv.config();
 
@@ -18,23 +19,23 @@ const allowedOrigins = [
 ];
 app.use(express.json());
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.indexOf(origin) === -1) {
-        const msg =
-          'The CORS policy for this site does not ' +
-          'allow access from the specified Origin.';
-        return callback(new Error(msg), false);
-      }
-      return callback(null, true);
-    },
+// app.use(
+//   cors({
+//     origin: function (origin, callback) {
+//       if (!origin) return callback(null, true);
+//       if (allowedOrigins.indexOf(origin) === -1) {
+//         const msg =
+//           'The CORS policy for this site does not ' +
+//           'allow access from the specified Origin.';
+//         return callback(new Error(msg), false);
+//       }
+//       return callback(null, true);
+//     },
 
-    allowedHeaders: ['Content-Type', 'Authorization', 'Custom-Header']
-  })
-);
-// app.use(cors())
+//     allowedHeaders: ['Content-Type', 'Authorization', 'Custom-Header']
+//   })
+// );
+app.use(cors())
 
 const server = http.createServer(app);
 
@@ -54,6 +55,7 @@ app.get('/alive', async (_req: Request, res: Response) => {
 });
 
 app.use('/', routes);
+app.use('/global', globalRoutes);
 
 app.locals.io = io;
 
