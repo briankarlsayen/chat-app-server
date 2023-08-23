@@ -11,6 +11,9 @@ primary_region = "sin"
 [env]
   PORT = 
   MONGODB_URI= 
+  EMAIL_HOST=
+  EMAIL_USERNAME=
+  EMAIL_PASSWORD=
 
 [http_service]
   force_https = true
