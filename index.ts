@@ -48,14 +48,14 @@ const io = new Server(server, {
 });
 initializeConfig(io)
 
-app.get('/alive', async (_req: Request, res: Response) => {
+app.get('/api/alive', async (_req: Request, res: Response) => {
   return res.status(200).json({
     message: 'Alive alive',
   });
 });
 
-app.use('/', routes);
-app.use('/global', globalRoutes);
+app.use('/api', routes);
+app.use('/api/global', globalRoutes);
 
 app.locals.io = io;
 
