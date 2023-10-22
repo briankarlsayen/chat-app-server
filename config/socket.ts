@@ -1,7 +1,7 @@
 import { Socket } from 'socket.io';
 export const connectSocket = (io: any) => {
   console.log('Socket working!');
-  io.of('/chat-app').on('connection', (socket: Socket) => {
+  io.of('/api/chat-app').on('connection', (socket: Socket) => {
     console.log('User Connected: ', socket.id);
 
     socket.on('join-room', (chatRoomNames) => {
