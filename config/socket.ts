@@ -1,7 +1,9 @@
 import { Socket } from 'socket.io';
+const socketUrl = '/api/chat-app'
+
 export const connectSocket = (io: any) => {
   console.log('Socket working!');
-  io.of('/api/chat-app').on('connection', (socket: Socket) => {
+  io.of(socketUrl).on('connection', (socket: Socket) => {
     console.log('User Connected: ', socket.id);
 
     socket.on('join-room', (chatRoomNames) => {
@@ -29,7 +31,7 @@ export const connectSocket = (io: any) => {
           createdAt: new Date(),
           type: chatMessage?.type
         };
-        io.of('/chat-app')
+        io.of(socketUrl)
           .to(chatMessage?.channel)
           .emit('message', formatMessage);
       }
